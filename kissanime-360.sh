@@ -1,18 +1,18 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------------
-# @name    : kissanime-preview.sh
+# @name    : kissanime-360.sh
 # @version : 0.1
-# @date    : 
+# @date    : 2015/03/09 11:04 WIB
 #
 # TENTANG
 # ----------------------------------------------------------------------------------
-# Script untuk link-grabbing (mengambil link) download video dari kissanime.com,
-# bisa mengambil link video untuk semua episode, bisa satu episode tertentu.
+# Script untuk link-grabbing (mengambil link) video dari kissanime.com,
 # Setelah grabbing link, script akan membuat halaman html yang berisi link
 # video dari hasil grabbing tersebut.
 #
 # NB:
-# Bla bla~~~~~~~
+# Karena sistem kissanime.com yang mengharuskan login untuk menampilkan link
+# download video, script ini hanya bisa mengambil link video versi 360p saja
 #
 # KONTAK
 # ----------------------------------------------------------------------------------
@@ -30,8 +30,9 @@
 #  The MIT License (MIT)
 #  Copyright (c) 2013 Ghozy Arif Fajri <gojigeje@gmail.com>
 
-
 mulai() {
+   # secara default, file html berisi link video akan disimpan ke Desktop
+   # ganti sesuai keperluan
    downloadFolder="$HOME/Desktop"
 
    clear
@@ -89,8 +90,6 @@ cekLink() {
           epsMin=$(printf "%03d" `echo "$cEpisode" | sed -s 's/#//g' | cut -d "-" -f1`)
           epsMax=$(printf "%03d" `echo "$cEpisode" | sed -s 's/#//g' | cut -d "-" -f2`)
 
-          echo "epsMin: $epsMin epsMax: $epsMax"
-
           if [[ $epsMin -gt $epsMax ]]; then
             echo "# [ERROR] urutan episode terbalik! --> #[min]-[max]"
             echo ""
@@ -130,10 +129,18 @@ cekLink() {
       echo "# [-ERROR-] Link Salah! Script hanya bisa mengunduh episode dari situs KissAnime.com"
       echo "#           Pastikan link yang dimasukkan benar!"
       echo "#"
-      echo "#           Untuk mengunduh semua Episode: "
+      echo "#           Untuk mengunduh semua episode: "
       echo "#            - http://www.kissanime.com/Anime/[judul Anime]"
-      echo "#           Untuk mengunduh satu Episode: "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/Episode-XXX"
+      echo "#"
+      echo "#           Untuk mengunduh satu episode: "
+      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/Episode-002"
+      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#2"
+      echo "#"
+      echo "#           Untuk mengunduh rentang episode (episode 5 hingga 10) : "
+      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#5-10"
+      echo "#"
+      echo "#           Untuk mengunduh episode 6 sampai akhir : "
+      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#6+"
       echo "#"
       echo "# Script akan keluar."
       cleanUp
@@ -339,6 +346,7 @@ generateLinks() {
    echo "# Link video disimpan sebagai \"$downloadFile\""
    echo "#"
    echo "# [`date +%Y-%m-%d` `date +%H:%M`] - Selesai!"
+
    cleanUp
 }
 
