@@ -110,6 +110,8 @@ cekLink() {
           dlTipe="Episode"
           epss=$(printf "%03d" `echo "$cEpisode" | sed -s 's/#//g' | cut -d "-" -f1`)
           target=$(echo $target | sed 's/#.*/Episode-'$epss'/g')
+        elif echo "$cEpisode" | egrep -E '^#last$' > /dev/null ;then
+          dlTipe="Last"
         else
           adaEpisode=$(echo $cEpisode | grep "Episode" | wc -l)
           if [[ $adaEpisode -gt 0 ]]; then
@@ -142,6 +144,9 @@ cekLink() {
       echo "#           Untuk mengunduh episode 6 sampai akhir : "
       echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#6+"
       echo "#"
+      echo "#           Untuk mengunduh episode terakhir/terbaru saja : "
+      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#last"
+      echo "#"
       echo "# Script akan keluar."
       cleanUp
       exit 1
@@ -151,8 +156,10 @@ cekLink() {
 }
 
 curlPage() {
-  echo "#"
-  echo "# Mengunduh halaman: $target"
+  if [[ $2 != "quiet" ]]; then
+    echo "#"
+    echo "# Mengunduh halaman: $target"
+  fi
   curl -A "$ua" -s "$target" > $tempFile
 }
 
@@ -212,13 +219,23 @@ getAnime() {
      rm "$tempLink"
      mv "$tempLink.filter" "$tempLink"
      rangejudul=" [Episode $epsMin-$epsMax]"
-  elif [[ "$dlTipe" = "RangePlus" ]]; then
+   elif [[ "$dlTipe" = "RangePlus" ]]; then
      cat "$tempLink" | awk 'p;/'$epsMin'/{p=1}' > "$tempLink.filter" # http://stackoverflow.com/a/19047354
      rm "$tempLink"
      mv "$tempLink.filter" "$tempLink"
      let epss++;
      epsjudul=$(printf "%03d" $epss)
      rangejudul=" [Episode $epsjudul+]"
+   elif [[ "$dlTipe" = "Last" ]]; then
+     cat "$tempLink" | tail -n1 > "$tempLink.filter" # http://stackoverflow.com/a/19047354
+     rm "$tempLink"
+     mv "$tempLink.filter" "$tempLink"
+
+     target=$(cat "$tempLink" | cut -d "\"" -f2 | sed 's/?.*//g;s/^/http:\/\/proksi.ml/g')
+     dlTipe="Episode"
+     curlPage "$target" "quiet"
+     getEpisode "$target"
+     exit
    fi
 
    judulAnime=$(cat $tempFile | grep bigChar | head -n1 | sed 's/<[^>]\+>/ /g' | sed "s/[ \t]*//$g" | sed 's/ $//g')
@@ -279,7 +296,7 @@ getEpisode() {
   echo "#"
   echo "# Link video disimpan sebagai \"$downloadFile\""
   echo "#"
-  echo "# `date +%Y-%m-%d:%H%M` - Selesai!"
+  echo "# [`date +%Y-%m-%d` `date +%H:%M`] - Selesai!"
 
   cleanUp
 }
