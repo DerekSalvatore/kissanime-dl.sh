@@ -56,6 +56,15 @@ cek_koneksi() {
     echo "# [`date +%Y-%m-%d` `date +%H:%M`] - EXIT: Nggak konek internet :("
     exit
   fi
+
+  # # cara lain cek online dengan curl, jika ping diblok sama admin jaringan
+  # respon=$(curl -sI http://www.google.co.id/ | head -n 1 | cut -d " " -f2)
+  # if [[ $respon == 200 ]]; then
+  #   echo "# [`date +%Y-%m-%d` `date +%H:%M`] - Cek koneksi internet.. [OK] "
+  # else
+  #   echo "# [`date +%Y-%m-%d` `date +%H:%M`] - EXIT: Nggak konek internet :("
+  #   exit
+  # fi
 }
 
 cekLink() {
@@ -238,7 +247,7 @@ getAnime() {
      exit
    fi
 
-   judulAnime=$(cat $tempFile | grep bigChar | head -n1 | sed 's/<[^>]\+>/ /g' | sed "s/[ \t]*//$g" | sed 's/ $//g')
+   judulAnime=$(cat $tempFile | grep bigChar | head -n1 | sed 's/<[^>]\+>/ /g' | sed "s/[ \t]*//$g" | sed 's/ $//g;s/\//-/g')
    deskripsiAnime=$(cat $tempFile | awk -F: '/Summary:/ && $0 != "" { getline; print $0}')
    downloadFile="$downloadFolder/$judulAnime$rangejudul.html"
 
@@ -253,7 +262,8 @@ getAnime() {
 }
 
 getEpisode() {
-  judulAnime=$(cat $tempFile | grep "itemprop=\"name\"" | sed 's/^.*content="//g' | sed 's/"\/>//g')
+  judulAnime=$(cat $tempFile | sed -n "/<title>/,/<\/title>/p" | sed 's/<[^>]\+>/ /g' | tr '\r\n' ' ' |  sed "s/[ \t]*//$g;s/ - *.*//g;s/\//-/g")
+  # judulAnime=$(cat $tempFile | grep "itemprop=\"name\"" | sed 's/^.*content="//g' | sed 's/"\/>//g')
   downloadFile="$downloadFolder/$judulAnime.html"
 
   echo "#"
@@ -288,7 +298,9 @@ getEpisode() {
       echo "</div>" >> "$downloadFile"
 
     fi
-
+    # pause
+    echo "--"
+    sleep 2
   done
 
   echo "<div id='footer'>Generated using KissAnime-DL Script by @gojigeje &lt;gojigeje@gmail.com&gt;</div>" >> "$downloadFile"
@@ -347,7 +359,9 @@ generateLinks() {
 
             continue
          fi
-
+         # pause
+         # echo "--"
+         sleep 2
    done
 
    echo "<div id='footer'>Generated using KissAnime-DL Script by @gojigeje &lt;gojigeje@gmail.com&gt;</div>" >> "$downloadFile"
