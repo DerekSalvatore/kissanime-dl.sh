@@ -299,7 +299,7 @@ getEpisode() {
 
     fi
     # pause
-    echo "--"
+    # echo "--"
     sleep 2
   done
 
