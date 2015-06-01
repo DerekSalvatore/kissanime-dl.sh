@@ -229,7 +229,7 @@ getAnime() {
      mv "$tempLink.filter" "$tempLink"
      rangejudul=" [Episode $epsMin-$epsMax]"
    elif [[ "$dlTipe" = "RangePlus" ]]; then
-     cat "$tempLink" | awk 'p;/'$epsMin'/{p=1}' > "$tempLink.filter" # http://stackoverflow.com/a/19047354
+     cat "$tempLink" | awk 'p;/Episode-'$epsMin'/{p=1}' > "$tempLink.filter" # http://stackoverflow.com/a/19047354
      rm "$tempLink"
      mv "$tempLink.filter" "$tempLink"
      let epss++;
