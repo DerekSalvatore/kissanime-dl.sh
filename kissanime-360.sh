@@ -79,7 +79,7 @@ cekLink() {
    cJudul=$(echo $cLink | cut -d "/" -f4)
    cEpisode=$(echo $cLink | cut -d "/" -f5)
 
-   # echo "cLink: $cLink ~ cSitus: $cSitus ~ cAnime: $cAnime ~ cJudul: $cJudul ~ cEpisode: $cEpisode"
+   echo "cLink: $cLink ~ cSitus: $cSitus ~ cAnime: $cAnime ~ cJudul: $cJudul ~ cEpisode: $cEpisode"
 
    if [[ "$cSitus" = "kissanime.com" || "$cSitus" = "www.kissanime.com" ]]; then
       if [[ -z "$cEpisode" ]]; then
@@ -169,7 +169,7 @@ curlPage() {
     echo "#"
     echo "# Mengunduh halaman: $target"
   fi
-  curl -A "$ua" -s "$target" > $tempFile
+  curl --compressed -A "$ua" -s "$target" > $tempFile
 }
 
 verifyPage() {
@@ -258,6 +258,7 @@ getAnime() {
    echo "#"
    echo "# Judul Anime: '$judulAnime$rangejudul'"
 
+   # echo "generateLinks $target $epsMin $epsMax"
    generateLinks $target $epsMin $epsMax
 }
 
@@ -334,6 +335,7 @@ generateLinks() {
          judulTemp="`sed -n "$num"p $tempLink`"
          judul=$(echo $judulTemp | sed 's/^.*anime //; s/online.*$//' | sed 's/ $//g')
 
+         # echo "getDlLinks $line > $tempFile"
          getDlLinks $line > $tempFile
 
          echo -n "# - $judul.."
@@ -382,9 +384,19 @@ generateLinks() {
 }
 
 getDlLinks() {
-   decoded=$(curl -s $proxy $1 | grep "var txha" | cut -d "'" -f2 | base64 --decode)
-   python -c "import sys, urllib as ul; print ul.unquote_plus('$decoded')" | sed 's/.*|//'
+   # echo "curl -s $proxy $1 | grep \"var txha\" | cut -d \"'\" -f2 | base64 --decode"
+   # decoded=$(curl -s $proxy $1 | grep "var txha" | cut -d "'" -f2 | base64 --decode)
+   # python -c "import sys, urllib as ul; print ul.unquote_plus('$decoded')" | sed 's/.*|//'
    # http://unix.stackexchange.com/questions/159253 http://unix.stackexchange.com/questions/136794
+
+   # url
+   # grep id=\"selectQuality\" | sed 's/<option/\n<option/g' | sed -e 's/<option .*value=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | tail -n +2
+
+   # quality
+   # grep id=\"selectQuality\" | sed 's/<option/\n<option/g' | sed "s/<[^>]\+>/ /g;s/[ \t]*//$g" | tail -n +2
+
+   decoded=$(curl --compressed -s $proxy $1 | grep id=\"selectQuality\" | sed 's/<option/\n<option/g' | grep 360p | sed -e 's/<option .*value=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | base64 --decode)
+   echo "$decoded"
 }
 
 cleanUp() {
