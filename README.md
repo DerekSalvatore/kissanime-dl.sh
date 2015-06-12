@@ -1,4 +1,4 @@
 kissanime-dl.sh
 ===============
 
-(Dead project) KissAnime video link grabber
+KissAnime video link grabber
