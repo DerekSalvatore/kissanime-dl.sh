@@ -41,7 +41,7 @@ mulai() {
    echo ""
 
    pageurl="$1"
-   target=$(echo "$pageurl" | sed 's/kissanime.com\//proksi.ml\/kissanime.com\//g')
+   target=$(echo "$pageurl" | sed 's/superanimes.site\//proksi.ml\/superanimes.site\//g')
    cek_koneksi
    cekLink "$target"
    verifyPage "$target"
@@ -81,7 +81,7 @@ cekLink() {
 
    echo "cLink: $cLink ~ cSitus: $cSitus ~ cAnime: $cAnime ~ cJudul: $cJudul ~ cEpisode: $cEpisode"
 
-   if [[ "$cSitus" = "kissanime.com" || "$cSitus" = "www.kissanime.com" ]]; then
+   if [[ "$cSitus" = "superanimes.site" || "$cSitus" = "www.superanimes.site" ]]; then
       if [[ -z "$cEpisode" ]]; then
          if [[ -z "$cJudul" ]]; then
             linkSalah="1"
@@ -141,20 +141,20 @@ cekLink() {
       echo "#           Pastikan link yang dimasukkan benar!"
       echo "#"
       echo "#           Untuk mengunduh semua episode: "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]"
       echo "#"
       echo "#           Untuk mengunduh satu episode: "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/Episode-002"
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#2"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/Episode-002"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/#2"
       echo "#"
       echo "#           Untuk mengunduh rentang episode (episode 5 hingga 10) : "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#5-10"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/#5-10"
       echo "#"
       echo "#           Untuk mengunduh episode 6 sampai akhir : "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#6+"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/#6+"
       echo "#"
       echo "#           Untuk mengunduh episode terakhir/terbaru saja : "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/#last"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/#last"
       echo "#"
       echo "# Script akan keluar."
       cleanUp
