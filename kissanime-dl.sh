@@ -93,7 +93,7 @@ cek_koneksi() {
 mulai() {
    clear
    figlet " KissAnime-DL"
-   echo "  superanimes.com link grabber by @gojigeje <gojigeje@gmail.com>"
+   echo "  superanimes.site link grabber by @gojigeje <gojigeje@gmail.com>"
    echo ""
    cek_koneksi
    cekResolusi $2
