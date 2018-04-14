@@ -132,7 +132,7 @@ cekLink() {
 
    # echo "$cSitus $cAnime $cJudul $cEpisode"
 
-   if [ "$cSitus" = "kissanime.com" -o "$cSitus" = "www.superanimes.site" ]; then
+   if [ "$cSitus" = "superanimes.site" -o "$cSitus" = "www.superanimes.site" ]; then
       if [[ -z "$cEpisode" ]]; then
          if [[ -z "$cJudul" ]]; then
             linkSalah="1"
@@ -227,7 +227,7 @@ getAnime() {
    echo "# Judul Anime: '$judulAnime'"
 
    awk '/<table\>/{a=1;next}/<\/table\>/{a=0}a' $tempFile | grep "<a href=" > $tempLink
-   cat $tempLink | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed 's/^/http:\/\/kissanime.com/g' > $linkFile
+   cat $tempLink | grep -o '<a .*href=.*>' | sed -e 's/<a /\n<a /g' | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' | sed 's/^/http:\/\/superanimes.site/g' > $linkFile
    jumlahEpisode=$(awk '/<table\>/{a=1;next}/<\/table\>/{a=0}a' $tempFile | grep "<a href=" | wc -l)
    echo "# Jumlah Link Video: $jumlahEpisode"
 
