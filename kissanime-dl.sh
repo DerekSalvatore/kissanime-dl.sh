@@ -1,12 +1,12 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------------
-# @name    : kissanime-dl
+# @name    : anime-dl
 # @version : 0.1
 # @date    : 25/10/2013 11:21:59
 #
 # TENTANG
 # ----------------------------------------------------------------------------------
-# Script untuk link-grabbing (mengambil link) download video dari kissanime.com,
+# Script untuk link-grabbing (mengambil link) download video dari superanimes.com,
 # bisa mengambil link video untuk semua episode, bisa satu episode tertentu.
 # Setelah grabbing link, script akan membuat halaman html yang berisi link
 # video dari hasil grabbing tersebut.
@@ -93,7 +93,7 @@ cek_koneksi() {
 mulai() {
    clear
    figlet " KissAnime-DL"
-   echo "  KissAnime.com link grabber by @gojigeje <gojigeje@gmail.com>"
+   echo "  superanimes.com link grabber by @gojigeje <gojigeje@gmail.com>"
    echo ""
    cek_koneksi
    cekResolusi $2
@@ -132,7 +132,7 @@ cekLink() {
 
    # echo "$cSitus $cAnime $cJudul $cEpisode"
 
-   if [ "$cSitus" = "kissanime.com" -o "$cSitus" = "www.kissanime.com" ]; then
+   if [ "$cSitus" = "kissanime.com" -o "$cSitus" = "www.superanimes.site" ]; then
       if [[ -z "$cEpisode" ]]; then
          if [[ -z "$cJudul" ]]; then
             linkSalah="1"
@@ -161,9 +161,9 @@ cekLink() {
       echo "#           Pastikan link yang dimasukkan benar!"
       echo "#"
       echo "#           Untuk mengunduh semua Episode: "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]"
       echo "#           Untuk mengunduh satu Episode: "
-      echo "#            - http://www.kissanime.com/Anime/[judul Anime]/Episode-XXX"
+      echo "#            - http://www.superanimes.site/Anime/[judul Anime]/Episode-XXX"
       echo "#"
       echo "# Script akan keluar."
       cleanUp
